@@ -19,3 +19,12 @@ test('Support a newline character as an alternative delimiter', () => {
   expect(stringCalculator('1\n2,3')).toEqual(6);
   expect(stringCalculator('5\nabc\n5\nxyz\n5')).toEqual(15);
 })
+
+test('Deny negative numbers. An exception should be thrown that includes all of the negative numbers provided', () => {
+  expect(() => {
+    stringCalculator('1,-2')
+  }).toThrow('negative number -2 not allowed');
+  expect(() => {
+    stringCalculator('-1\n2,-3\n4,-5')
+  }).toThrow('negative numbers -1, -3, -5 not allowed');
+});
