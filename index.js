@@ -1,5 +1,5 @@
 function stringCalculator(str) {
-  // splits str wherever the comma delimiter is into an array.
+  // splits str based on regex expression (wherever a comma or new line delimiter is) into an array.
   const strArr = str.split(/,|\n/) ;
   // array to hold all negative numbers to be returned.
   const negativeArr = [];
@@ -18,15 +18,24 @@ function stringCalculator(str) {
   })
 
   // if there are any negative numbers, throws an Error that includes the invalid numbers.
-  if (negativeArr.length === 1) {
-    throw new Error(`negative number ${negativeArr[0]} not allowed`);
-  } else if (negativeArr.length > 1) {
-    throw new Error(`negative numbers ${negativeArr.join(', ')} not allowed`);
-  }
+  negativeArrErrorThrower(negativeArr)
 
-  // finally, get sum of all elements inside the array using reduce and return the final sum.
-  const sum = sumArr.reduce((total, num) => total + num);
+  // first send sumArr as param to find1000OrGreater to remove any numbers greater than 1000
+  // then finally, get sum of all elements inside the array using reduce and return the final sum.
+  const sum = find1000OrGreater(sumArr).reduce((total, num) => total + num);
   return sum;
+}
+
+function find1000OrGreater(arr) {
+  return arr.filter(num => num < 1000)
+}
+
+function negativeArrErrorThrower(arr) {
+  if (arr.length === 1) {
+    throw new Error(`negative number ${arr[0]} not allowed`);
+  } else if (arr.length > 1) {
+    throw new Error(`negative numbers ${arr.join(', ')} not allowed`);
+  }
 }
 
 module.exports = stringCalculator;
