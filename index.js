@@ -1,6 +1,19 @@
 function stringCalculator(str) {
-  // splits str based on regex expression (wherever a comma or new line delimiter is) into an array.
-  const strArr = str.split(/,|\n/) ;
+  // splits str to find whether first element is a number or custom delimiter.
+  // create variable firstNum to hold value of first number to use in next if statement.
+  const splitStr = str.split('');
+  const firstNumStr = firstNumFinder(splitStr);
+
+  // check if the str includes '\n' b/c if it doesn't I know we don't have a custom delimiter on our hands so only
+  // have to deal with newline and comma delimiters. Otherwise, ensure that the '\n' delimiter comes before the
+  // first number in the string (using indexOf), meaning we have been passed in a custom delimiter.
+  let strArr;
+  if (str.includes('\n') && str.indexOf('\n') < str.indexOf(firstNumStr)) {
+    strArr = handleSplit(str);
+  } else {
+    strArr = str.split(/,|\n/);
+  }
+  
   // array to hold all negative numbers to be returned.
   const negativeArr = [];
 
@@ -18,7 +31,7 @@ function stringCalculator(str) {
   })
 
   // if there are any negative numbers, throws an Error that includes the invalid numbers.
-  negativeArrErrorThrower(negativeArr)
+  negativeArrErrorThrower(negativeArr);
 
   // first send sumArr as param to find1000OrGreater to remove any numbers greater than 1000
   // then finally, get sum of all elements inside the array using reduce and return the final sum.
@@ -26,8 +39,24 @@ function stringCalculator(str) {
   return sum;
 }
 
+function firstNumFinder(arr) {
+  for (let char of arr) {
+    if (parseInt(char)) {
+      return char;
+    }
+  }
+}
+
+function handleSplit(str) {
+  // here we handle the split of our array using regex expression that accounts for all the required delimiters
+  // as well as the custom delimiter we passed in using a dynamic regex expression.
+  let firstChar = str.slice(0, 1);
+  let regex = new RegExp(`,|\\n|\\${firstChar}`,'g');
+  return strArr = str.split(regex).filter(Boolean);
+}
+
 function find1000OrGreater(arr) {
-  return arr.filter(num => num < 1000)
+  return arr.filter(num => num < 1001);
 }
 
 function negativeArrErrorThrower(arr) {

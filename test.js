@@ -33,4 +33,9 @@ test('Deny negative numbers. An exception should be thrown that includes all of 
 test('Ignore any number greater than 1000', () => {
   expect(stringCalculator('2,1001,6')).toEqual(8);
   expect(stringCalculator('1500\n1\n2000\n2')).toEqual(3);
-})
+});
+
+test('Support 1 custom single character length delimiter', () => {
+  expect(stringCalculator(';\n2;5')).toEqual(7);
+  expect(stringCalculator('&\n5&10\n15,20')).toEqual(50);
+});
