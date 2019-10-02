@@ -13,7 +13,7 @@ function stringCalculator(str) {
   } else {
     strArr = str.split(/,|\n/);
   }
-  
+
   // array to hold all negative numbers to be returned.
   const negativeArr = [];
 
@@ -50,9 +50,24 @@ function firstNumFinder(arr) {
 function handleSplit(str) {
   // here we handle the split of our array using regex expression that accounts for all the required delimiters
   // as well as the custom delimiter we passed in using a dynamic regex expression.
-  let firstChar = str.slice(0, 1);
-  let regex = new RegExp(`,|\\n|\\${firstChar}`,'g');
-  return strArr = str.split(regex).filter(Boolean);
+  const delimiter = str.slice(0, str.indexOf('\n'));
+  const strLength = delimiter.length;
+  // here, after slicing the str from the beginning to '\n', we check if the first and last characters are
+  // '[' and ']' respectively. If they are we are dealing with a custom delimiter of any length.
+  // Otherwise, we are dealing with a single custom delimiter so go to else statement.
+  if (delimiter[0] === '[' && delimiter.charAt(strLength - 1) === ']') {
+    // to find the length of the custom delimiter, simply subtract 2 to remove the brackets '[' and ']'.
+    const customDelimiterLength = strLength - 2;
+    const customCharacter = delimiter[1]; // => '*' (or whatever custom delimiter user passes in.)
+    // add a match into dynamic regex that looks for the custom delimiter at the number of times
+    // it was passed in (ex. '***' === 3 === customDelimiterLength).
+    const regex = new RegExp(`,|\\n|\\${customCharacter}{${customDelimiterLength}}`,'g');
+    return strArr = str.split(regex).filter(Boolean);
+  } else {
+    const firstChar = str.slice(0, 1);
+    const regex = new RegExp(`,|\\n|\\${firstChar}`,'g');
+    return strArr = str.split(regex).filter(Boolean);
+  }
 }
 
 function find1000OrGreater(arr) {

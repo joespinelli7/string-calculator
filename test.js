@@ -39,3 +39,8 @@ test('Support 1 custom single character length delimiter', () => {
   expect(stringCalculator(';\n2;5')).toEqual(7);
   expect(stringCalculator('&\n5&10\n15,20')).toEqual(50);
 });
+
+test('Support 1 custom delimiter of any length', () => {
+  expect(stringCalculator('[***]\n11***22***33')).toEqual(66);
+  expect(stringCalculator('[$$$]\n1,2\n3$$$4')).toEqual(10);
+});
