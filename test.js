@@ -44,3 +44,8 @@ test('Support 1 custom delimiter of any length', () => {
   expect(stringCalculator('[***]\n11***22***33')).toEqual(66);
   expect(stringCalculator('[$$$]\n1,2\n3$$$4')).toEqual(10);
 });
+
+test('Support multiple delimiters of any length', () => {
+  expect(stringCalculator('[*][!!][r9r]\n11r9r22*33!!44')).toEqual(110);
+  expect(stringCalculator('[$][!@!@#~]\n1$2!@!@#~3,4\n5')).toEqual(15);
+});
